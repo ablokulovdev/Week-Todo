@@ -11,6 +11,7 @@ from app.models.user import User
 from app.services.aut import hashed_pass, passwor_verify
 from app.schemas.user import UserListRespons
 
+
 router = APIRouter(
     prefix="/users",
     tags=["User Endpoint."]
@@ -30,7 +31,6 @@ def register(
     if exists:
         raise HTTPException(status_code=400,detail="user already exists")
     
-    
     hashed = hashed_pass(password)
     
     new_user = User(
@@ -38,18 +38,15 @@ def register(
         hashed_password=hashed,
         full_name=full_name,
         phone=phone
-        
     )
     
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
     
-    
     return new_user
     
-
-
+    
 @router.get("/login",response_model=UserListRespons)
 def login(
     username: str = Form(),
@@ -64,6 +61,7 @@ def login(
         if passwor_verify(password,users.hashed_password):
             
             return users
+        
         else:
             raise HTTPException(status_code=400,detail="password not correct")
     
