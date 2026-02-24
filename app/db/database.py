@@ -21,4 +21,5 @@ class Base(DeclarativeBase):
     pass
 
 def initial_db():
+    from app.models.user import User
     Base.metadata.create_all(engine)
