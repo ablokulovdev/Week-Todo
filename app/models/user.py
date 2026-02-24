@@ -5,7 +5,7 @@ from sqlalchemy import (
     String,
     DateTime
 )
-
+from sqlalchemy.orm import relationship
 from app.db.database import Base
 
 
@@ -20,6 +20,8 @@ class User(Base):
     
     created_at = Column(DateTime,default=datetime.utcnow)
     updated_at = Column(DateTime,onupdate=datetime.utcnow)
+    
+    tasks = relationship("Task",back_populates="user")
     
     def __repr__(self):
         return f"User (id = {self.id}, username = {self.username}, phone = {self.phone})"
